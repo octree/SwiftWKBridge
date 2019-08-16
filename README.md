@@ -24,13 +24,12 @@ let plg: (String) -> Void = {
 webView.injector.inject(path: "window.bridge.log", plugin: plg)
 // the web developer can invoke this function directly
 // window.bridge.log("hello world");
-// It just works
 ```
 
 
 
 define a function with callbacks
-
+ 
 ```swift
 let plg: (String, Callback) -> Void = {
     $1.invoke("Hello, I received you message: ", $1)
