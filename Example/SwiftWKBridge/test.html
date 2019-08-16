@@ -1,0 +1,23 @@
+<html>
+    <header>
+        <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+                <title>hello world</title>
+    </header>
+    <script type="text/javascript">
+        function tapped() {
+            window.bridge.log("hello world")
+        }
+
+        function showConfirm() {
+            window.bridge.confirm("哈哈哈 😀", function(hello) {
+                    window.bridge.log("Hello swift, I received callback message")
+            });
+        }
+
+    </script>
+    <a href="javascript:tapped();">Native Log</a>
+    <br/>
+    <a href="javascript:showConfirm();">Alert</a>
+    <br/>
+</html>

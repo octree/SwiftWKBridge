@@ -1,0 +1,40 @@
+a {
+
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 1em;
+    font-size: 1em;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    background-image: none;
+    border: none;
+/*    border-radius: 4px;*/
+    color: white;
+    background-color: #4285F4;
+    box-shadow: 1px 1px 4px #888888;
+    text-decoration: none;
+}
+
+a:link {
+    text-decoration: none;
+}
+a:visited {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: none;
+}
+a:active {
+    text-decoration: none;
+}
