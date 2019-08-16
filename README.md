@@ -1,15 +1,67 @@
 # SwiftWKBridge
 
-[![CI Status](https://img.shields.io/travis/Octree/SwiftWKBridge.svg?style=flat)](https://travis-ci.org/Octree/SwiftWKBridge)
 [![Version](https://img.shields.io/cocoapods/v/SwiftWKBridge.svg?style=flat)](https://cocoapods.org/pods/SwiftWKBridge)
 [![License](https://img.shields.io/cocoapods/l/SwiftWKBridge.svg?style=flat)](https://cocoapods.org/pods/SwiftWKBridge)
 [![Platform](https://img.shields.io/cocoapods/p/SwiftWKBridge.svg?style=flat)](https://cocoapods.org/pods/SwiftWKBridge)
 
+
+
+An elegant way to sending message between Swift and WKWebView.
+Usually, you don't need to write any javascript code.
+And the web developer don't need write any extra javascript code either.
+
 ## Example
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-## Requirements
+
+It's very easy define a javascript function sending message to swift
+
+```swift
+let plg: (String) -> Void = {
+	print("🌏 [WebView]:", $0)
+ }
+// the first arg is the function name
+webView.injector.inject(path: "window.bridge.log", plugin: plg)
+// the web developer can invoke this function directly
+// window.bridge.log("hello world");
+// It just works
+```
+
+
+
+You can send a javascript function to swift.
+
+```swift
+let plg: (String, Callback) -> Void = {
+    $1.invoke("Hello, I received you message: ", $1)
+}
+// Subscripts is supported
+webView.injector["window.bridge.test"] = plg
+// js: window.bridge.test("message", console.log)
+```
+
+
+
+### CSS Injector
+
+Besides, you can inject css into your webView
+
+```swift
+webView.injector.cssInjector.inject(css: source, forKey: key)
+// remove css
+webView.injector.cssInjector.removeCSS(forKey: key)
+```
+
+
+
+### Night Mode
+
+```swift
+webView.nightFall()
+webView.sunrise()
+```
+
+
 
 ## Installation
 
