@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SwiftWKBridge'
-  s.version          = '0.1.1'
+  s.version          = '0.2.0'
   s.summary          = 'An elegant way to send message between Swift and WKWebView'
 
 # This description is used to generate tags and improve search results.
