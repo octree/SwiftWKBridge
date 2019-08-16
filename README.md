@@ -31,7 +31,7 @@ webView.injector.inject(path: "window.bridge.log", plugin: plg)
 
 
 define a function with callbacks
- 
+
 ```swift
 let plg: (String, Callback) -> Void = {
     $1.invoke("Got it. ", $0)
@@ -40,6 +40,31 @@ let plg: (String, Callback) -> Void = {
 webView.injector["window.bridge.test"] = plg
 // js: window.bridge.test("message", console.log)
 ```
+
+
+
+Codable
+
+```Swift
+struct User: Codable {
+    var name: String
+    var age: Int
+    var nickname: String?
+}
+
+let plg: (User, Callback) -> Void = { user, callback in
+    var user = user
+    user.nickname = "Nickname"
+    user.age = 10
+    callback.invoke(user)
+}
+
+webView.injector["window.bridge.test"] = plg
+
+// window.bridge.test({ name: "Octree", age: 100 }, (user) => { /* ... */ })
+```
+
+
 
 
 
