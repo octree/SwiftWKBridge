@@ -34,7 +34,7 @@ define a function with callbacks
  
 ```swift
 let plg: (String, Callback) -> Void = {
-    $1.invoke("Got it. ", $1)
+    $1.invoke("Got it. ", $0)
 }
 // Subscripts is supported
 webView.injector["window.bridge.test"] = plg
