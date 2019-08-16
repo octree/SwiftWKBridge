@@ -10,6 +10,20 @@ import Foundation
 
 public extension Injector {
 
+    subscript(path: String) -> (() -> Void)? {
+        set {
+            if let f = newValue {
+                inject(path: path, plugin: f)
+            } else {
+                removePlugin(forPath: path)
+            }
+        }
+
+        get {
+            return nil
+        }
+    }
+
     subscript<P0>(path: String) -> ((P0) -> Void)?
         where P0: Decodable {
         set {
