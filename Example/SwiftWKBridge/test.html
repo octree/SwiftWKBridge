@@ -10,8 +10,14 @@
         }
 
         function showConfirm() {
-            window.bridge.confirm("哈哈哈 😀", function(hello) {
-                    window.bridge.log("Hello swift, I received callback message")
+            window.bridge.confirm("哈哈哈 😀", function(msg) {
+                                  window.bridge.log("Hello swift, I received callback message: , " + msg)
+            });
+        }
+
+        function test() {
+            window.bridge.test({ name: "Octree", age: 100 }, function(user) {
+                window.bridge.log(JSON.stringify(user));
             });
         }
 
@@ -20,4 +26,5 @@
     <br/>
     <a href="javascript:showConfirm();">Alert</a>
     <br/>
+    <a href="javascript:test();">Codable</a>
 </html>

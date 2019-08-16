@@ -9,18 +9,24 @@
 import Foundation
 import WebKit
 
+fileprivate extension Encodable {
+    func toJSONData() throws -> Data {
+        return try JSONEncoder().encode(self)
+    }
+}
+
 public class Callback: Decodable {
     private enum CodingKeys: String, CodingKey {
         case id
     }
     var id: String
     weak var webView: WKWebView?
-    public func invoke(_ args: Any...) {
+
+    public func invoke(_ args: Encodable...) {
         do {
-            let data = try JSONSerialization.data(withJSONObject: args, options: [])
+            let params = try args.map { try String(data: $0.toJSONData(), encoding: .utf8)! }.joined(separator: ", ")
             var source: String
-            if let text = data.string(), text.count > 2 {
-                let params = String(text.dropLast().dropFirst())
+            if params.count > 0 {
                 source = "window.__bridge__.CBDispatcher.invoke('\(id)', \(params))"
             } else {
                 source = "window.__bridge__.CBDispatcher.invoke('\(id)')"

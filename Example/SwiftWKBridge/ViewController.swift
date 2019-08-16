@@ -10,6 +10,12 @@ import UIKit
 import WebKit
 import SwiftWKBridge
 
+struct User: Codable {
+    var name: String
+    var age: Int
+    var nickname: String?
+}
+
 class ViewController: UIViewController {
 
     @IBOutlet weak var webView: WKWebView!
@@ -27,6 +33,15 @@ class ViewController: UIViewController {
         }
 
         webView.injector["window.bridge.confirm"] = plg2
+
+        let plg3: (User, Callback) -> Void = { user, callback in
+            var user = user
+            user.nickname = "Octree"
+            callback.invoke(user)
+        }
+
+        webView.injector["window.bridge.test"] = plg3
+
         webView.loadHTMLString(String(fileName: "test", type: "html")!,
                                baseURL: nil)
     }

@@ -8,12 +8,6 @@
 
 import WebKit
 
-extension Data {
-    func string(with encoding: String.Encoding = .utf8) -> String? {
-        return String(data: self, encoding: encoding)
-    }
-}
-
 class AnyPlugin {
     func invoke(argString: String) {
     }
