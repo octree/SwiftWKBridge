@@ -14,7 +14,7 @@ And the web developer don't need write any extra javascript code either.
 
 
 
-It's very easy define a javascript function sending message to swift
+It's very easy to define a javascript function with native code
 
 ```swift
 let plg: (String) -> Void = {
@@ -29,7 +29,7 @@ webView.injector.inject(path: "window.bridge.log", plugin: plg)
 
 
 
-You can send a javascript function to swift.
+define a function with callbacks
 
 ```swift
 let plg: (String, Callback) -> Void = {
