@@ -43,7 +43,7 @@ webView.injector["window.bridge.test"] = plg
 
 
 
-Codable
+Codable 
 
 ```Swift
 struct User: Codable {
@@ -91,8 +91,7 @@ webView.sunrise()
 
 ## Installation
 
-SwiftWKBridge is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+### CocoaPods
 
 ```ruby
 pod 'SwiftWKBridge'
