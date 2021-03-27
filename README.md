@@ -97,6 +97,11 @@ webView.sunrise()
 pod 'SwiftWKBridge'
 ```
 
+### Swift Package Manager
+* File > Swift Packages > Add Package Dependency
+* Add https://github.com/octree/SwiftWKBridge.git
+* Select "Up to Next Major" with "1.0.0"
+
 ## Author
 
 Octree, fouljz@gmail.com
