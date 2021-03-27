@@ -51,7 +51,6 @@ public final class UserScriptManager {
         reinject()
     }
 
-
     /// Inject an js script in webView
     /// - Parameter script: An instance of WKUserScript
     /// - Parameter key: Unique key
@@ -74,7 +73,7 @@ public final class UserScriptManager {
         scriptMap[key] = nil
         reinject()
     }
-    
+
     private func reinject() {
         guard let userController = webView?.configuration.userContentController else {
             return

@@ -35,8 +35,7 @@ struct User: Codable {
 }
 
 class ViewController: UIViewController {
-
-    @IBOutlet weak var webView: WKWebView!
+    @IBOutlet var webView: WKWebView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,4 +95,3 @@ class ViewController: UIViewController {
         webView.sunrise()
     }
 }
-

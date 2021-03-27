@@ -27,7 +27,7 @@
 import Foundation
 
 public extension String {
-    init?(fileName:String, type: String, bundle: Bundle = Bundle.main) {
+    init?(fileName: String, type: String, bundle: Bundle = Bundle.main) {
         guard let path = bundle.path(forResource: fileName, ofType: type) else {
             return nil
         }

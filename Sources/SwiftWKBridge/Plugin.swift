@@ -27,22 +27,21 @@
 import WebKit
 
 class AnyPlugin {
-    func invoke(argString: String) {
-    }
+    func invoke(argString: String) {}
 }
 
 class Plugin<Arg: ArgsType>: AnyPlugin {
-    
+
     private weak var webView: WKWebView?
     let f: (Arg) -> ()
     private let path: String
-    
+
     init(webView: WKWebView?, path: String, f: @escaping (Arg) -> ()) {
         self.path = path
         self.webView = webView
         self.f = f
     }
-    
+
     override func invoke(argString: String) {
         guard let data = argString.data(using: .utf8) else {
             fatalError()
@@ -55,4 +54,3 @@ class Plugin<Arg: ArgsType>: AnyPlugin {
         }
     }
 }
-

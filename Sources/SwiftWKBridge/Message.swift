@@ -27,7 +27,7 @@
 import Foundation
 import WebKit
 
-fileprivate extension Encodable {
+private extension Encodable {
     func toJSONData() throws -> Data {
         return try JSONEncoder().encode(self)
     }
@@ -37,6 +37,7 @@ public class Callback: Decodable {
     private enum CodingKeys: String, CodingKey {
         case id
     }
+
     var id: String
     weak var webView: WKWebView?
 
@@ -69,13 +70,9 @@ public class Callback: Decodable {
     }
 }
 
-protocol ArgsType: Decodable {
-    
-}
+protocol ArgsType: Decodable {}
 
-struct Args0: Decodable, ArgsType {
-    
-}
+struct Args0: Decodable, ArgsType {}
 
 struct Args1<P0: Decodable>: Decodable, ArgsType {
     var arg0: P0
@@ -92,7 +89,6 @@ struct Args3<P0: Decodable, P1: Decodable, P2: Decodable>: Decodable, ArgsType {
     var arg2: P2
 }
 
-
 struct Args4<P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable>: Decodable, ArgsType {
     var arg0: P0
     var arg1: P1
@@ -107,7 +103,6 @@ struct Args5<P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable, P4: Dec
     var arg3: P3
     var arg4: P4
 }
-
 
 struct Args6<P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable, P4: Decodable, P5: Decodable>: Decodable, ArgsType {
     var arg0: P0
@@ -127,7 +122,6 @@ struct Args7<P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable, P4: Dec
     var arg5: P5
     var arg6: P6
 }
-
 
 struct Args8<P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable, P4: Decodable, P5: Decodable, P6: Decodable, P7: Decodable>: Decodable, ArgsType {
     var arg0: P0

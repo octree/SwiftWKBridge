@@ -56,7 +56,6 @@ enum NightScript {
 }
 
 public extension WKWebView {
-
     func nightFall() {
         evaluateJavaScript("""
         window.__bridge__.NightMode.setEnabled(true);
