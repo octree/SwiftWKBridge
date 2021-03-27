@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SwiftWKBridge'
-  s.version          = '0.2.0'
+  s.version          = '1.0.0'
   s.summary          = 'An elegant way to send message between Swift and WKWebView'
 
 # This description is used to generate tags and improve search results.
@@ -33,8 +33,8 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '9.0'
   s.swift_versions = ['5.0']
 
-  s.source_files = 'SwiftWKBridge/Classes/**/*'
-  s.resources = 'SwiftWKBridge/Assets/**/*.js'
+  s.source_files = 'Sources/SwiftWKBridge/**/*.swift'
+  s.resources = 'Sources/SwiftWKBridge/Assets/**/*.js'
   # s.resource_bundles = {
   #   'SwiftWKBridge' => ['SwiftWKBridge/Assets/*.png']
   # }
