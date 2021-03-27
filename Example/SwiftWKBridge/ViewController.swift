@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         let plg3: (User, Callback) -> Void = { user, callback in
             var user = user
             user.nickname = "Octree"
-            callback.invoke(user)
+            callback(user)
         }
 
         webView.injector["window.bridge.test"] = plg3
@@ -53,7 +53,7 @@ class ViewController: UIViewController {
         alertVC.addAction(UIAlertAction(title: "Ok",
                                         style: .default,
                                         handler: { _ in
-                                            callback.invoke("Ok, " + msg)
+                                            callback("Ok, " + msg)
                                         }))
         present(alertVC, animated: true, completion: nil)
     }

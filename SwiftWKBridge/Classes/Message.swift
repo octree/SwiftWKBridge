@@ -23,6 +23,14 @@ public class Callback: Decodable {
     weak var webView: WKWebView?
 
     public func invoke(_ args: Encodable...) {
+        _invoke(args: args)
+    }
+
+    public func callAsFunction(_ args: Encodable...) {
+        _invoke(args: args)
+    }
+
+    private func _invoke(args: [Encodable]) {
         do {
             let params = try args.map { try String(data: $0.toJSONData(), encoding: .utf8)! }.joined(separator: ", ")
             var source: String

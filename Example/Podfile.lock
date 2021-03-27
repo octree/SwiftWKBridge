@@ -1,5 +1,5 @@
 PODS:
-  - SwiftWKBridge (0.1.0)
+  - SwiftWKBridge (0.2.0)
 
 DEPENDENCIES:
   - SwiftWKBridge (from `../`)
@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  SwiftWKBridge: ed929a5397debabae53e7a94e8a26047d3b9f41e
+  SwiftWKBridge: 56fe8fb911b6cd622edba47bb5177454474a6a17
 
 PODFILE CHECKSUM: 507f27ff746580e398fc5007b3f1e3ec3b963bd0
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.10.1
