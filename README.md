@@ -3,8 +3,7 @@
 [![Version](https://img.shields.io/cocoapods/v/SwiftWKBridge.svg?style=flat)](https://cocoapods.org/pods/SwiftWKBridge)
 [![License](https://img.shields.io/cocoapods/l/SwiftWKBridge.svg?style=flat)](https://cocoapods.org/pods/SwiftWKBridge)
 [![Platform](https://img.shields.io/cocoapods/p/SwiftWKBridge.svg?style=flat)](https://cocoapods.org/pods/SwiftWKBridge)
-
-
+[![SPM](https://img.shields.io/badge/SPM-supported-DE5C43.svg?style=flat)](https://swift.org/package-manager/)
 
 An elegant way to send message between `Swift` and `WKWebView`.
 
