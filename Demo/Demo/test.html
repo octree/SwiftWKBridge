@@ -6,18 +6,19 @@
     </header>
     <script type="text/javascript">
         function tapped() {
-            window.bridge.log("hello world")
+            wow.log("hello world")
+            println("println")
         }
 
         function showConfirm() {
-            window.bridge.confirm("哈哈哈 😀", function(msg) {
-                                  window.bridge.log("Hello swift, I received callback message: , " + msg)
+            wow.confirm("哈哈哈 😀", function(msg) {
+                wow.log("Hello swift, I received callback message: , " + msg)
             });
         }
 
         function test() {
-            window.bridge.test({ name: "Octree", age: 100 }, function(user) {
-                window.bridge.log(JSON.stringify(user));
+            wow.test({ name: "Octree", age: 100 }, function(user) {
+                wow.log(JSON.stringify(user));
             });
         }
 

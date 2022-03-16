@@ -253,20 +253,20 @@ extension Injector {
     private func functionDefineCode(path: String, argsCount: Int) -> String {
         if argsCount == 0 {
             return """
-            if(\(path)==null) { \(path) = function() { window.__bridge__.invoke('\(path)')} }
+            if(globalThis.\(path)==null) { globalThis.\(path) = function() { window.__bridge__.invoke('\(path)')} }
             """
         }
 
         let args = (0 ..< argsCount).map { "a\($0)" }.joined(separator: ",")
         return """
-        if(\(path)==null) { \(path) = function(\(args)) { window.__bridge__.invoke('\(path)', \(args))} }
+        if(globalThis.\(path)==null) { globalThis.\(path) = function(\(args)) { window.__bridge__.invoke('\(path)', \(args))} }
         """
     }
 
     private func scriptForPlugin(withPath path: String, argsCount: Int) -> String {
         let array = path.components(separatedBy: ".")
         let count = array.count - 1
-        var pathTmp = "this"
+        var pathTmp = "globalThis"
         var code = ""
         var index = 0
         while index < count {
@@ -274,6 +274,7 @@ extension Injector {
             code += objectDefineJavascriptCode(path: pathTmp)
             index += 1
         }
+        print(code + functionDefineCode(path: path, argsCount: argsCount))
         return code + functionDefineCode(path: path, argsCount: argsCount)
     }
 }
