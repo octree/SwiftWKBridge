@@ -42,14 +42,14 @@ class ViewController: UIViewController {
         let plg: (String) -> Void = {
             print("🌏 [WebView]:", $0)
         }
-        webView.injector.inject(path: "window.bridge.log",
+        webView.injector.inject(path: "wow.log",
                                 plugin: plg)
 
         let plg2: (String, Callback) -> Void = { [weak self] in
             self?.confirm(msg: $0, callback: $1)
         }
 
-        webView.injector["window.bridge.confirm"] = plg2
+        webView.injector["wow.confirm"] = plg2
 
         let plg3: (User, Callback) -> Void = { user, callback in
             var user = user
@@ -57,10 +57,16 @@ class ViewController: UIViewController {
             callback(user)
         }
 
-        webView.injector["window.bridge.test"] = plg3
+        webView.injector["wow.test"] = plg3
 
         webView.loadHTMLString(String(fileName: "test", type: "html")!,
                                baseURL: nil)
+
+        let plg4: (String) -> Void = {
+            print("🌏 [WebView]:", $0)
+        }
+        webView.injector.inject(path: "println",
+                                plugin: plg4)
     }
 
     func confirm(msg: String, callback: Callback) {
