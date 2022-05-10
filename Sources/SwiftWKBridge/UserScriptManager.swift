@@ -40,7 +40,7 @@ public final class UserScriptManager {
         let source = String(fileName: "core", type: "js", bundle: bundle)!
         return WKUserScript(source: source,
                             injectionTime: .atDocumentStart,
-                            forMainFrameOnly: true)
+                            forMainFrameOnly: false)
     }()
 
     /// key: Identifier for script
