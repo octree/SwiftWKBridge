@@ -231,7 +231,7 @@ public extension Injector {
 
     private func _inject<Arg: ArgsType>(path: String, plugin: @escaping (Arg) -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentEnd, argsCount: Int) {
         pluginMap[path] = Plugin(webView: webView, path: path, f: plugin)
-        inject(script: scriptForPlugin(withPath: path, argsCount: argsCount), key: path, injectionTime: injectionTime, forMainFrameOnly: true)
+        inject(script: scriptForPlugin(withPath: path, argsCount: argsCount), key: path, injectionTime: injectionTime, forMainFrameOnly: false)
     }
 
     /// 删除插件
