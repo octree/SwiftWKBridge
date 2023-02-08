@@ -53,15 +53,21 @@ public class Callback: Decodable {
         do {
             let params = try args.map { try String(data: $0.toJSONData(), encoding: .utf8)! }.joined(separator: ", ")
             var source: String
-            if params.count > 0 {
+            if !params.isEmpty {
                 source = "window.__bridge__.CBDispatcher.invoke('\(id)', \(params))"
+                invoke(script: params)
             } else {
                 source = "window.__bridge__.CBDispatcher.invoke('\(id)')"
+                webView?.evaluateJavaScript(source, completionHandler: nil)
             }
-            webView?.evaluateJavaScript(source, completionHandler: nil)
         } catch {
             fatalError()
         }
+    }
+
+    public func invoke(script args: String) {
+        let source = "window.__bridge__.CBDispatcher.invoke('\(id)', \(args))"
+        webView?.evaluateJavaScript(source, completionHandler: nil)
     }
 
     deinit {
