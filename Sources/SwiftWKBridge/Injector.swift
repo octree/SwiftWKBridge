@@ -274,7 +274,6 @@ extension Injector {
             code += objectDefineJavascriptCode(path: pathTmp)
             index += 1
         }
-        print(code + functionDefineCode(path: path, argsCount: argsCount))
         return code + functionDefineCode(path: path, argsCount: argsCount)
     }
 }
