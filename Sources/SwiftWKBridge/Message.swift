@@ -50,15 +50,22 @@ public class Callback: Decodable {
     }
 
     private func _invoke(args: [Encodable]) {
+        guard let webView else { return }
         do {
             let params = try args.map { try String(data: $0.toJSONData(), encoding: .utf8)! }.joined(separator: ", ")
             var source: String
             if !params.isEmpty {
                 source = "window.__bridge__.CBDispatcher.invoke('\(id)', \(params))"
-                invoke(script: params)
             } else {
                 source = "window.__bridge__.CBDispatcher.invoke('\(id)')"
-                webView?.evaluateJavaScript(source, completionHandler: nil)
+            }
+
+            if Thread.current.isMainThread {
+                webView.evaluateJavaScript(source, completionHandler: nil)
+            } else {
+                DispatchQueue.main.async {
+                    webView.evaluateJavaScript(source, completionHandler: nil)
+                }
             }
         } catch {
             fatalError()
@@ -66,13 +73,27 @@ public class Callback: Decodable {
     }
 
     public func invoke(script args: String) {
+        guard let webView else { return }
         let source = "window.__bridge__.CBDispatcher.invoke('\(id)', \(args))"
-        webView?.evaluateJavaScript(source, completionHandler: nil)
+        if Thread.current.isMainThread {
+            webView.evaluateJavaScript(source, completionHandler: nil)
+        } else {
+            DispatchQueue.main.async {
+                webView.evaluateJavaScript(source, completionHandler: nil)
+            }
+        }
     }
 
     deinit {
         let source = "window.__bridge__.CBDispatcher.remove('\(id)')"
-        webView?.evaluateJavaScript(source, completionHandler: nil)
+        guard let webView else { return }
+        if Thread.current.isMainThread {
+            webView.evaluateJavaScript(source, completionHandler: nil)
+        } else {
+            DispatchQueue.main.async {
+                webView.evaluateJavaScript(source, completionHandler: nil)
+            }
+        }
     }
 }
 
