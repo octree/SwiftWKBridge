@@ -25,13 +25,13 @@
 //  THE SOFTWARE.
 
 import Foundation
+import WebKit
 
 public extension Injector {
-
-    subscript(path: String) -> (() -> Void)? {
+    subscript(path: String, at time: WKUserScriptInjectionTime = .atDocumentEnd) -> (() -> Void)? {
         set {
             if let f = newValue {
-                inject(path: path, plugin: f)
+                inject(path: path, plugin: f, injectionTime: time)
             } else {
                 removePlugin(forPath: path)
             }
@@ -42,11 +42,12 @@ public extension Injector {
         }
     }
 
-    subscript<P0>(path: String) -> ((P0) -> Void)?
-        where P0: Decodable {
+    subscript<P0>(path: String, at time: WKUserScriptInjectionTime = .atDocumentEnd) -> ((P0) -> Void)?
+        where P0: Decodable
+    {
         set {
             if let f = newValue {
-                inject(path: path, plugin: f)
+                inject(path: path, plugin: f, injectionTime: time)
             } else {
                 removePlugin(forPath: path)
             }
@@ -57,11 +58,12 @@ public extension Injector {
         }
     }
 
-    subscript<P0, P1>(path: String) -> ((P0, P1) -> Void)?
-        where P0: Decodable, P1: Decodable {
+    subscript<P0, P1>(path: String, at time: WKUserScriptInjectionTime = .atDocumentEnd) -> ((P0, P1) -> Void)?
+        where P0: Decodable, P1: Decodable
+    {
         set {
             if let f = newValue {
-                inject(path: path, plugin: f)
+                inject(path: path, plugin: f, injectionTime: time)
             } else {
                 removePlugin(forPath: path)
             }
@@ -72,11 +74,12 @@ public extension Injector {
         }
     }
 
-    subscript<P0, P1, P2>(path: String) -> ((P0, P1, P2) -> Void)?
-        where P0: Decodable, P1: Decodable, P2: Decodable {
+    subscript<P0, P1, P2>(path: String, at time: WKUserScriptInjectionTime = .atDocumentEnd) -> ((P0, P1, P2) -> Void)?
+        where P0: Decodable, P1: Decodable, P2: Decodable
+    {
         set {
             if let f = newValue {
-                inject(path: path, plugin: f)
+                inject(path: path, plugin: f, injectionTime: time)
             } else {
                 removePlugin(forPath: path)
             }
@@ -87,11 +90,12 @@ public extension Injector {
         }
     }
 
-    subscript<P0, P1, P2, P3>(path: String) -> ((P0, P1, P2, P3) -> Void)?
-        where P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable {
+    subscript<P0, P1, P2, P3>(path: String, at time: WKUserScriptInjectionTime = .atDocumentEnd) -> ((P0, P1, P2, P3) -> Void)?
+        where P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable
+    {
         set {
             if let f = newValue {
-                inject(path: path, plugin: f)
+                inject(path: path, plugin: f, injectionTime: time)
             } else {
                 removePlugin(forPath: path)
             }
@@ -102,11 +106,12 @@ public extension Injector {
         }
     }
 
-    subscript<P0, P1, P2, P3, P4>(path: String) -> ((P0, P1, P2, P3, P4) -> Void)?
-        where P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable, P4: Decodable {
+    subscript<P0, P1, P2, P3, P4>(path: String, at time: WKUserScriptInjectionTime = .atDocumentEnd) -> ((P0, P1, P2, P3, P4) -> Void)?
+        where P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable, P4: Decodable
+    {
         set {
             if let f = newValue {
-                inject(path: path, plugin: f)
+                inject(path: path, plugin: f, injectionTime: time)
             } else {
                 removePlugin(forPath: path)
             }
@@ -117,11 +122,12 @@ public extension Injector {
         }
     }
 
-    subscript<P0, P1, P2, P3, P4, P5>(path: String) -> ((P0, P1, P2, P3, P4, P5) -> Void)?
-        where P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable, P4: Decodable, P5: Decodable {
+    subscript<P0, P1, P2, P3, P4, P5>(path: String, at time: WKUserScriptInjectionTime = .atDocumentEnd) -> ((P0, P1, P2, P3, P4, P5) -> Void)?
+        where P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable, P4: Decodable, P5: Decodable
+    {
         set {
             if let f = newValue {
-                inject(path: path, plugin: f)
+                inject(path: path, plugin: f, injectionTime: time)
             } else {
                 removePlugin(forPath: path)
             }
@@ -132,11 +138,12 @@ public extension Injector {
         }
     }
 
-    subscript<P0, P1, P2, P3, P4, P5, P6>(path: String) -> ((P0, P1, P2, P3, P4, P5, P6) -> Void)?
-        where P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable, P4: Decodable, P5: Decodable, P6: Decodable {
+    subscript<P0, P1, P2, P3, P4, P5, P6>(path: String, at time: WKUserScriptInjectionTime = .atDocumentEnd) -> ((P0, P1, P2, P3, P4, P5, P6) -> Void)?
+        where P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable, P4: Decodable, P5: Decodable, P6: Decodable
+    {
         set {
             if let f = newValue {
-                inject(path: path, plugin: f)
+                inject(path: path, plugin: f, injectionTime: time)
             } else {
                 removePlugin(forPath: path)
             }
@@ -147,11 +154,12 @@ public extension Injector {
         }
     }
 
-    subscript<P0, P1, P2, P3, P4, P5, P6, P7>(path: String) -> ((P0, P1, P2, P3, P4, P5, P6, P7) -> Void)?
-        where P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable, P4: Decodable, P5: Decodable, P6: Decodable, P7: Decodable {
+    subscript<P0, P1, P2, P3, P4, P5, P6, P7>(path: String, at time: WKUserScriptInjectionTime = .atDocumentEnd) -> ((P0, P1, P2, P3, P4, P5, P6, P7) -> Void)?
+        where P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable, P4: Decodable, P5: Decodable, P6: Decodable, P7: Decodable
+    {
         set {
             if let f = newValue {
-                inject(path: path, plugin: f)
+                inject(path: path, plugin: f, injectionTime: time)
             } else {
                 removePlugin(forPath: path)
             }

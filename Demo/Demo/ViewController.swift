@@ -24,9 +24,9 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
+import SwiftWKBridge
 import UIKit
 import WebKit
-import SwiftWKBridge
 
 struct User: Codable {
     var name: String
@@ -39,6 +39,11 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if #available(iOS 16.4, *) {
+            webView.isInspectable = true
+        }
+
         let plg: (String) -> Void = {
             print("🌏 [WebView]:", $0)
         }
@@ -57,7 +62,7 @@ class ViewController: UIViewController {
             callback(user)
         }
 
-        webView.injector["wow.test"] = plg3
+        webView.injector["wow.test", at: .atDocumentEnd] = plg3
 
         webView.loadHTMLString(String(fileName: "test", type: "html")!,
                                baseURL: nil)
