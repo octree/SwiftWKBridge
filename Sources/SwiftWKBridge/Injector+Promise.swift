@@ -92,7 +92,6 @@ public extension Injector {
 
     private func _injectPromise<Arg: ArgsType>(path: String, plugin: @escaping (Arg) -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentEnd, argsCount: Int) {
         pluginMap[path] = Plugin(webView: webView, path: path, f: plugin)
-        print(scriptForPlugin(withPath: path, argsCount: argsCount, isPromise: true))
         inject(script: scriptForPlugin(withPath: path, argsCount: argsCount, isPromise: true),
                key: path,
                injectionTime: injectionTime,
