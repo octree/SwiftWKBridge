@@ -72,6 +72,27 @@ class ViewController: UIViewController {
         }
         webView.injector.inject(path: "println",
                                 plugin: plg4)
+
+        let async0: () async throws -> String = {
+            "hello"
+        }
+
+        let async1: (String) async throws -> String = {
+            "hello \($0)"
+        }
+
+        let async2: (String, String) async throws -> String = {
+            "hello \($0) \($1)"
+        }
+
+        let asyncThrow: () async throws -> String = {
+            throw NSError(domain: "fuck", code: 123, userInfo: [:])
+        }
+
+        webView.injector.inject(path: "async0", plugin: async0)
+        webView.injector.inject(path: "async1", plugin: async1)
+        webView.injector.inject(path: "async2", plugin: async2)
+        webView.injector.inject(path: "asyncThrow", plugin: asyncThrow)
     }
 
     func confirm(msg: String, callback: Callback) {

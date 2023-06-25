@@ -28,17 +28,15 @@ import WebKit
 
 public class Injector: NSObject {
     private static let messageName = "bridge"
-    private var pluginMap = [String: AnyPlugin]()
+    var pluginMap = [String: AnyPlugin]()
 
     /// 管理 JS 脚本
     public let userScriptManager: UserScriptManager
 
     /// 管理 CSS 样式
-    public private(set) lazy var cssInjector: CSSInjector = {
-        CSSInjector(webView: webView)
-    }()
+    public private(set) lazy var cssInjector: CSSInjector = .init(webView: webView)
 
-    private weak var webView: WKWebView?
+    weak var webView: WKWebView?
 
     init(webView: WKWebView) {
         self.webView = webView
@@ -47,7 +45,7 @@ public class Injector: NSObject {
         webView.configuration.userContentController.add(self, name: Self.messageName)
     }
 
-    private func inject(script: String, key: String, injectionTime: WKUserScriptInjectionTime, forMainFrameOnly: Bool = false) {
+    func inject(script: String, key: String, injectionTime: WKUserScriptInjectionTime, forMainFrameOnly: Bool = false) {
         let script = WKUserScript(source: script, injectionTime: injectionTime, forMainFrameOnly: forMainFrameOnly)
         userScriptManager.inject(script: script, forKey: key)
     }
@@ -73,8 +71,8 @@ extension Injector: WKScriptMessageHandler {
 }
 
 // MARK: - Inject Methods
-public extension Injector {
 
+public extension Injector {
     /// 添加插件
     /// - Parameter path: 函数名称, eg: window.bridge.alert
     /// - Parameter plugin: 插件函数，webView 中调用 `path` 中指定的函数，就会调用这个函数
@@ -243,6 +241,7 @@ public extension Injector {
 }
 
 // MARK: - JS Code Generator
+
 extension Injector {
     private func objectDefineJavascriptCode(path: String) -> String {
         return """
@@ -263,7 +262,44 @@ extension Injector {
         """
     }
 
-    private func scriptForPlugin(withPath path: String, argsCount: Int) -> String {
+    private func promiseFunctionDefineCode(path: String, argsCount: Int) -> String {
+        if argsCount == 0 {
+            return """
+            if (globalThis.\(path) == null) {
+                globalThis.\(path) = function() {
+                    return new Promise((resolve, reject) => {
+                        window.__bridge__.invoke('\(path)', (result) => {
+                            if (result.error != null) {
+                                reject(new Error(result.error));
+                            } else {
+                                resolve(result.value);
+                            }
+                        })
+                    })
+                }
+            }
+            """
+        }
+
+        let args = (0 ..< argsCount).map { "a\($0)" }.joined(separator: ",")
+        return """
+        if (globalThis.\(path) == null) {
+            globalThis.\(path) = function(\(args)) {
+                return new Promise((resolve, reject) => {
+                    window.__bridge__.invoke('\(path)', \(args), (result) => {
+                        if (result.error != null) {
+                            reject(new Error(result.error));
+                        } else {
+                            resolve(result.value);
+                        }
+                    })
+                })
+            }
+        }
+        """
+    }
+
+    func scriptForPlugin(withPath path: String, argsCount: Int, isPromise: Bool = false) -> String {
         let array = path.components(separatedBy: ".")
         let count = array.count - 1
         var pathTmp = "globalThis"
@@ -274,17 +310,23 @@ extension Injector {
             code += objectDefineJavascriptCode(path: pathTmp)
             index += 1
         }
-        return code + functionDefineCode(path: path, argsCount: argsCount)
+        if isPromise {
+            code += promiseFunctionDefineCode(path: path, argsCount: argsCount)
+        } else {
+            code += functionDefineCode(path: path, argsCount: argsCount)
+        }
+        return code
     }
 }
 
 // MARK: - Invoke JS Callback Function
+
 extension Injector {
-    private func processCallback<P: Decodable>(_ arg: P) -> P {
-        guard let callbck = arg as? Callback else {
+    func processCallback<P: Decodable>(_ arg: P) -> P {
+        guard let callback = arg as? Callback else {
             return arg
         }
-        callbck.webView = webView
+        callback.webView = webView
         return arg
     }
 }

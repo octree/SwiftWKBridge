@@ -6,14 +6,15 @@ import PackageDescription
 let package = Package(
     name: "SwiftWKBridge",
     platforms: [
-        .macOS(.v10_14),
-        .iOS(.v10)
+        .macOS(.v11),
+        .iOS(.v13)
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "SwiftWKBridge",
-            targets: ["SwiftWKBridge"]),
+            targets: ["SwiftWKBridge"]
+        )
     ],
     dependencies: [
     ],
@@ -23,9 +24,11 @@ let package = Package(
             dependencies: [],
             resources: [
                 .process("Assets")
-            ]),
+            ]
+        ),
         .testTarget(
             name: "SwiftWKBridgeTests",
-            dependencies: ["SwiftWKBridge"]),
+            dependencies: ["SwiftWKBridge"]
+        )
     ]
 )
