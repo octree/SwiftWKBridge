@@ -31,12 +31,11 @@ class AnyPlugin {
 }
 
 class Plugin<Arg: ArgsType>: AnyPlugin {
-
     private weak var webView: WKWebView?
-    let f: (Arg) -> ()
+    let f: (Arg) -> Void
     private let path: String
 
-    init(webView: WKWebView?, path: String, f: @escaping (Arg) -> ()) {
+    init(webView: WKWebView?, path: String, f: @escaping (Arg) -> Void) {
         self.path = path
         self.webView = webView
         self.f = f
@@ -50,7 +49,17 @@ class Plugin<Arg: ArgsType>: AnyPlugin {
             let args = try JSONDecoder().decode(Arg.self, from: data)
             f(args)
         } catch {
-            print("🍎 [Plugin] Cannot invoke plugin(\(path)) with args: \(argString), error: \(error)")
+            let message = "🍎 [Plugin] Cannot invoke plugin(\(path)) with args: \(argString), error: \(error)"
+            print(message)
+            #if DEBUG
+            guard let webView else { return }
+            DispatchQueue.main.async {
+                guard let data = try? JSONEncoder().encode(message),
+                      let text = String(data: data, encoding: .utf8)
+                else { return }
+                webView.evaluateJavaScript("console.error(\(text))")
+            }
+            #endif
         }
     }
 }
