@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'SwiftWKBridge'
-  s.version          = '1.4.3'
+  s.version          = '1.4.4'
   s.summary          = 'An elegant way to send message between Swift and WKWebView'
   s.description      = <<-DESC
   An elegant way to send message between Swift and WKWebView.
@@ -13,8 +13,8 @@ Pod::Spec.new do |s|
   s.author           = { 'Octree' => 'fouljz@gmail.com' }
   s.source           = { :git => 'https://github.com/Octree/SwiftWKBridge.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '10.0'
-  s.osx.deployment_target = '10.11'
+  s.ios.deployment_target = '13.0'
+  s.osx.deployment_target = '11'
   s.swift_version = '5.8'
 
   s.source_files = 'Sources/SwiftWKBridge/**/*.swift'
