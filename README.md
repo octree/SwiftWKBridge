@@ -20,7 +20,7 @@ It's very easy to define a javascript function with native code
 ```swift
 let plg: (String) -> Void = {
 	print("🌏 [WebView]:", $0)
- }
+}
 // the first arg is the function name
 webView.injector.inject(path: "window.bridge.log", plugin: plg)
 // the web developer can invoke this function directly
@@ -61,6 +61,19 @@ let plg: (User, Callback) -> Void = { user, callback in
 webView.injector["window.bridge.test"] = plg
 
 // window.bridge.test({ name: "Octree", age: 100 }, (user) => { /* ... */ })
+```
+
+
+
+Async
+
+```swift
+let read: (String) async throws -> String = {
+  "World"
+}
+
+webView.injector.inject(path: "bridge.read", plugin: read)
+// await bridge.read("hello")
 ```
 
 
