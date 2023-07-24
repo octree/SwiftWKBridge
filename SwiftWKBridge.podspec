@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'SwiftWKBridge'
-  s.version          = '1.2.3'
+  s.version          = '1.4.3'
   s.summary          = 'An elegant way to send message between Swift and WKWebView'
   s.description      = <<-DESC
   An elegant way to send message between Swift and WKWebView.
@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '10.0'
   s.osx.deployment_target = '10.11'
-  s.swift_version = '5.3'
+  s.swift_version = '5.8'
 
   s.source_files = 'Sources/SwiftWKBridge/**/*.swift'
   s.resources = 'Sources/SwiftWKBridge/Assets/**/*.js'
