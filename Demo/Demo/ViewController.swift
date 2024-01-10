@@ -56,7 +56,7 @@ class ViewController: UIViewController {
 
         webView.injector["wow.confirm"] = plg2
 
-        let plg3: (User, Callback) -> Void = { user, callback in
+        let plg3: (User, User?, Callback) -> Void = { user, optionalUser, callback in
             var user = user
             user.nickname = "Octree"
             callback(user)

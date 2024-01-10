@@ -26,24 +26,24 @@
 
 import WebKit
 
-private var kSwiftyWebViewInjectorKey = "kSwiftWKInjector"
+private enum AssociatedKeys {
+    static let injector = malloc(1)!
+}
 
 public extension WKWebView {
-
     /// Injector to manage plugins for a WKWebView
     var injector: Injector {
         get {
-            if let injector = objc_getAssociatedObject(self, &kSwiftyWebViewInjectorKey) as? Injector {
+            if let injector = objc_getAssociatedObject(self, AssociatedKeys.injector) as? Injector {
                 return injector
             } else {
-
                 let injector = Injector(webView: self)
-                objc_setAssociatedObject(self, &kSwiftyWebViewInjectorKey, injector, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                objc_setAssociatedObject(self, AssociatedKeys.injector, injector, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
                 return injector
             }
         }
         set {
-            objc_setAssociatedObject(self, &kSwiftyWebViewInjectorKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, AssociatedKeys.injector, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 }

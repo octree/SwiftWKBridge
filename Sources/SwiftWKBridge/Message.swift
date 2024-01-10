@@ -160,3 +160,111 @@ struct Args8<P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable, P4: Dec
     var arg6: P6
     var arg7: P7
 }
+
+protocol _OptionalProtocol: ExpressibleByNilLiteral {}
+extension Optional: _OptionalProtocol {}
+
+private enum CodingKeys: String, CodingKey {
+    case arg0
+    case arg1
+    case arg2
+    case arg3
+    case arg4
+    case arg5
+    case arg6
+    case arg7
+}
+
+private extension KeyedDecodingContainer {
+    func maybeOptionalDecode<T: Decodable>(_ type: T.Type, forKey key: Key) throws -> T {
+        if let optional = T.self as? _OptionalProtocol.Type {
+            return try decodeIfPresent(T.self, forKey: key) ?? (optional.init(nilLiteral: ()) as! T)
+        } else {
+            return try decode(T.self, forKey: key)
+        }
+    }
+}
+
+extension Args1 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        arg0 = try container.maybeOptionalDecode(P0.self, forKey: .arg0)
+    }
+}
+
+extension Args2 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        arg0 = try container.maybeOptionalDecode(P0.self, forKey: .arg0)
+        arg1 = try container.maybeOptionalDecode(P1.self, forKey: .arg1)
+    }
+}
+
+extension Args3 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        arg0 = try container.maybeOptionalDecode(P0.self, forKey: .arg0)
+        arg1 = try container.maybeOptionalDecode(P1.self, forKey: .arg1)
+        arg2 = try container.maybeOptionalDecode(P2.self, forKey: .arg2)
+    }
+}
+
+extension Args4 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        arg0 = try container.maybeOptionalDecode(P0.self, forKey: .arg0)
+        arg1 = try container.maybeOptionalDecode(P1.self, forKey: .arg1)
+        arg2 = try container.maybeOptionalDecode(P2.self, forKey: .arg2)
+        arg3 = try container.maybeOptionalDecode(P3.self, forKey: .arg3)
+    }
+}
+
+extension Args5 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        arg0 = try container.maybeOptionalDecode(P0.self, forKey: .arg0)
+        arg1 = try container.maybeOptionalDecode(P1.self, forKey: .arg1)
+        arg2 = try container.maybeOptionalDecode(P2.self, forKey: .arg2)
+        arg3 = try container.maybeOptionalDecode(P3.self, forKey: .arg3)
+        arg4 = try container.maybeOptionalDecode(P4.self, forKey: .arg4)
+    }
+}
+
+extension Args6 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        arg0 = try container.maybeOptionalDecode(P0.self, forKey: .arg0)
+        arg1 = try container.maybeOptionalDecode(P1.self, forKey: .arg1)
+        arg2 = try container.maybeOptionalDecode(P2.self, forKey: .arg2)
+        arg3 = try container.maybeOptionalDecode(P3.self, forKey: .arg3)
+        arg4 = try container.maybeOptionalDecode(P4.self, forKey: .arg4)
+        arg5 = try container.maybeOptionalDecode(P5.self, forKey: .arg5)
+    }
+}
+
+extension Args7 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        arg0 = try container.maybeOptionalDecode(P0.self, forKey: .arg0)
+        arg1 = try container.maybeOptionalDecode(P1.self, forKey: .arg1)
+        arg2 = try container.maybeOptionalDecode(P2.self, forKey: .arg2)
+        arg3 = try container.maybeOptionalDecode(P3.self, forKey: .arg3)
+        arg4 = try container.maybeOptionalDecode(P4.self, forKey: .arg4)
+        arg5 = try container.maybeOptionalDecode(P5.self, forKey: .arg5)
+        arg6 = try container.maybeOptionalDecode(P6.self, forKey: .arg6)
+    }
+}
+
+extension Args8 {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        arg0 = try container.maybeOptionalDecode(P0.self, forKey: .arg0)
+        arg1 = try container.maybeOptionalDecode(P1.self, forKey: .arg1)
+        arg2 = try container.maybeOptionalDecode(P2.self, forKey: .arg2)
+        arg3 = try container.maybeOptionalDecode(P3.self, forKey: .arg3)
+        arg4 = try container.maybeOptionalDecode(P4.self, forKey: .arg4)
+        arg5 = try container.maybeOptionalDecode(P5.self, forKey: .arg5)
+        arg6 = try container.maybeOptionalDecode(P6.self, forKey: .arg6)
+        arg7 = try container.maybeOptionalDecode(P7.self, forKey: .arg7)
+    }
+}
