@@ -73,8 +73,12 @@ class ViewController: UIViewController {
         webView.injector.inject(path: "println",
                                 plugin: plg4)
 
-        let async0: () async throws -> String = {
-            "hello"
+        let async0: () async throws -> String = { [weak webView] in
+            let new: () async throws -> String = {
+                return "world"
+            }
+            webView?.injector.inject(path: "async3", plugin: new)
+            return "hello"
         }
 
         let async1: (String) async throws -> String = {

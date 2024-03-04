@@ -48,6 +48,7 @@ public class Injector: NSObject {
     func inject(script: String, key: String, injectionTime: WKUserScriptInjectionTime, forMainFrameOnly: Bool = false) {
         let script = WKUserScript(source: script, injectionTime: injectionTime, forMainFrameOnly: forMainFrameOnly)
         userScriptManager.inject(script: script, forKey: key)
+        webView?.evaluateJavaScript(script.source)
     }
 }
 
