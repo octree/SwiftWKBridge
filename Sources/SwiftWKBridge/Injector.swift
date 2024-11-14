@@ -78,7 +78,7 @@ public extension Injector {
     /// - Parameter path: 函数名称, eg: window.bridge.alert
     /// - Parameter plugin: 插件函数，webView 中调用 `path` 中指定的函数，就会调用这个函数
     /// - Parameter injectionTime: 注入时机
-    func inject(path: String, plugin: @escaping () -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentEnd) {
+    func inject(path: String, plugin: @escaping () -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentStart) {
         let f: (Args0) -> Void = { _ in
             plugin()
         }
@@ -92,7 +92,7 @@ public extension Injector {
     /// - Parameter path: 函数名称, eg: window.bridge.alert
     /// - Parameter plugin: 插件函数，webView 中调用 `path` 中指定的函数，就会调用这个函数
     /// - Parameter injectionTime: 注入时机
-    func inject<P0>(path: String, plugin: @escaping (P0) -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentEnd) where P0: Decodable {
+    func inject<P0>(path: String, plugin: @escaping (P0) -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentStart) where P0: Decodable {
         let f: (Args1<P0>) -> Void = {
             plugin(self.processCallback($0.arg0))
         }
@@ -106,7 +106,7 @@ public extension Injector {
     /// - Parameter path: 函数名称, eg: window.bridge.alert
     /// - Parameter plugin: 插件函数，webView 中调用 `path` 中指定的函数，就会调用这个函数
     /// - Parameter injectionTime: 注入时机
-    func inject<P0, P1>(path: String, plugin: @escaping (P0, P1) -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentEnd) where P0: Decodable, P1: Decodable {
+    func inject<P0, P1>(path: String, plugin: @escaping (P0, P1) -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentStart) where P0: Decodable, P1: Decodable {
         let f: (Args2) -> Void = {
             plugin(self.processCallback($0.arg0),
                    self.processCallback($0.arg1))
@@ -121,7 +121,7 @@ public extension Injector {
     /// - Parameter path: 函数名称, eg: window.bridge.alert
     /// - Parameter plugin: 插件函数，webView 中调用 `path` 中指定的函数，就会调用这个函数
     /// - Parameter injectionTime: 注入时机
-    func inject<P0, P1, P2>(path: String, plugin: @escaping (P0, P1, P2) -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentEnd) where P0: Decodable, P1: Decodable, P2: Decodable {
+    func inject<P0, P1, P2>(path: String, plugin: @escaping (P0, P1, P2) -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentStart) where P0: Decodable, P1: Decodable, P2: Decodable {
         let f: (Args3) -> Void = {
             plugin(self.processCallback($0.arg0),
                    self.processCallback($0.arg1),
@@ -137,7 +137,7 @@ public extension Injector {
     /// - Parameter path: 函数名称, eg: window.bridge.alert
     /// - Parameter plugin: 插件函数，webView 中调用 `path` 中指定的函数，就会调用这个函数
     /// - Parameter injectionTime: 注入时机
-    func inject<P0, P1, P2, P3>(path: String, plugin: @escaping (P0, P1, P2, P3) -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentEnd) where P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable {
+    func inject<P0, P1, P2, P3>(path: String, plugin: @escaping (P0, P1, P2, P3) -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentStart) where P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable {
         let f: (Args4) -> Void = {
             plugin(self.processCallback($0.arg0),
                    self.processCallback($0.arg1),
@@ -154,7 +154,7 @@ public extension Injector {
     /// - Parameter path: 函数名称, eg: window.bridge.alert
     /// - Parameter plugin: 插件函数，webView 中调用 `path` 中指定的函数，就会调用这个函数
     /// - Parameter injectionTime: 注入时机
-    func inject<P0, P1, P2, P3, P4>(path: String, plugin: @escaping (P0, P1, P2, P3, P4) -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentEnd) where P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable, P4: Decodable {
+    func inject<P0, P1, P2, P3, P4>(path: String, plugin: @escaping (P0, P1, P2, P3, P4) -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentStart) where P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable, P4: Decodable {
         let f: (Args5) -> Void = {
             plugin(self.processCallback($0.arg0),
                    self.processCallback($0.arg1),
@@ -172,7 +172,7 @@ public extension Injector {
     /// - Parameter path: 函数名称, eg: window.bridge.alert
     /// - Parameter plugin: 插件函数，webView 中调用 `path` 中指定的函数，就会调用这个函数
     /// - Parameter injectionTime: 注入时机
-    func inject<P0, P1, P2, P3, P4, P5>(path: String, plugin: @escaping (P0, P1, P2, P3, P4, P5) -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentEnd) where P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable, P4: Decodable, P5: Decodable {
+    func inject<P0, P1, P2, P3, P4, P5>(path: String, plugin: @escaping (P0, P1, P2, P3, P4, P5) -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentStart) where P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable, P4: Decodable, P5: Decodable {
         let f: (Args6) -> Void = {
             plugin(self.processCallback($0.arg0),
                    self.processCallback($0.arg1),
@@ -191,7 +191,7 @@ public extension Injector {
     /// - Parameter path: 函数名称, eg: window.bridge.alert
     /// - Parameter plugin: 插件函数，webView 中调用 `path` 中指定的函数，就会调用这个函数
     /// - Parameter injectionTime: 注入时机
-    func inject<P0, P1, P2, P3, P4, P5, P6>(path: String, plugin: @escaping (P0, P1, P2, P3, P4, P5, P6) -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentEnd) where P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable, P4: Decodable, P5: Decodable, P6: Decodable {
+    func inject<P0, P1, P2, P3, P4, P5, P6>(path: String, plugin: @escaping (P0, P1, P2, P3, P4, P5, P6) -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentStart) where P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable, P4: Decodable, P5: Decodable, P6: Decodable {
         let f: (Args7) -> Void = {
             plugin(self.processCallback($0.arg0),
                    self.processCallback($0.arg1),
@@ -211,7 +211,7 @@ public extension Injector {
     /// - Parameter path: 函数名称, eg: window.bridge.alert
     /// - Parameter plugin: 插件函数，webView 中调用 `path` 中指定的函数，就会调用这个函数
     /// - Parameter injectionTime: 注入时机
-    func inject<P0, P1, P2, P3, P4, P5, P6, P7>(path: String, plugin: @escaping (P0, P1, P2, P3, P4, P5, P6, P7) -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentEnd) where P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable, P4: Decodable, P5: Decodable, P6: Decodable, P7: Decodable {
+    func inject<P0, P1, P2, P3, P4, P5, P6, P7>(path: String, plugin: @escaping (P0, P1, P2, P3, P4, P5, P6, P7) -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentStart) where P0: Decodable, P1: Decodable, P2: Decodable, P3: Decodable, P4: Decodable, P5: Decodable, P6: Decodable, P7: Decodable {
         let f: (Args8) -> Void = {
             plugin(self.processCallback($0.arg0),
                    self.processCallback($0.arg1),
@@ -228,7 +228,7 @@ public extension Injector {
                 argsCount: 8)
     }
 
-    private func _inject<Arg: ArgsType>(path: String, plugin: @escaping (Arg) -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentEnd, argsCount: Int) {
+    private func _inject<Arg: ArgsType>(path: String, plugin: @escaping (Arg) -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentStart, argsCount: Int) {
         pluginMap[path] = Plugin(webView: webView, path: path, f: plugin)
         inject(script: scriptForPlugin(withPath: path, argsCount: argsCount), key: path, injectionTime: injectionTime, forMainFrameOnly: false)
     }
