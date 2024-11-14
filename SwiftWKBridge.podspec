@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'SwiftWKBridge'
-  s.version          = '1.5.2'
+  s.version          = '1.6.0'
   s.summary          = 'An elegant way to send message between Swift and WKWebView'
   s.description      = <<-DESC
   An elegant way to send message between Swift and WKWebView.
