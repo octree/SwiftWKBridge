@@ -33,12 +33,12 @@ private extension Encodable {
     }
 }
 
-public class Callback: Decodable {
+public final class Callback: Decodable, @unchecked Sendable {
     private enum CodingKeys: String, CodingKey {
         case id
     }
 
-    var id: String
+    let id: String
     weak var webView: WKWebView?
 
     public func invoke(_ args: Encodable...) {

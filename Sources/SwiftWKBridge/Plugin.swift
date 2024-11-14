@@ -50,8 +50,8 @@ class Plugin<Arg: ArgsType>: AnyPlugin {
             f(args)
         } catch {
             let message = "🍎 [Plugin] Cannot invoke plugin(\(path)) with args: \(argString), error: \(error)"
-            print(message)
             #if DEBUG
+            print(message)
             guard let webView else { return }
             DispatchQueue.main.async {
                 guard let data = try? JSONEncoder().encode(message),
