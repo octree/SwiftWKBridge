@@ -271,7 +271,7 @@ extension Injector {
                     return new Promise((resolve, reject) => {
                         window.__bridge__.invoke('\(path)', (result) => {
                             if (result.error != null) {
-                                reject(new Error(result.error));
+                                reject(result.error);
                             } else {
                                 resolve(result.value);
                             }
@@ -289,7 +289,7 @@ extension Injector {
                 return new Promise((resolve, reject) => {
                     window.__bridge__.invoke('\(path)', \(args), (result) => {
                         if (result.error != null) {
-                            reject(new Error(result.error));
+                            reject(result.error);
                         } else {
                             resolve(result.value);
                         }
