@@ -1,16 +1,35 @@
 import Foundation
 import WebKit
 
+typealias EncodableError = Encodable & Error
+
+struct StandardEncodableError: EncodableError {
+    var error: String?
+}
+
 struct PromiseResult<V: Encodable>: Encodable {
+    enum CodingKeys: String, CodingKey {
+        case value
+        case error
+    }
+
     public var value: V?
-    public var error: String?
+    public var error: (any EncodableError)?
 
     public init(value: V) {
         self.value = value
     }
 
-    public init(error: String) {
+    public init(error: any EncodableError) {
         self.error = error
+    }
+
+    func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(value, forKey: .value)
+        if let error {
+            try container.encodeIfPresent(error, forKey: .error)
+        }
     }
 }
 
@@ -26,7 +45,7 @@ public extension Injector {
                 do {
                     try await callback.invoke(PromiseResult(value: plugin()))
                 } catch {
-                    callback.invoke(PromiseResult<R>(error: error.localizedDescription))
+                    callback.invoke(PromiseResult<R>(error: error.encodableError))
                 }
             }
         }
@@ -42,7 +61,7 @@ public extension Injector {
                         self.processCallback(args.arg0)
                     )))
                 } catch {
-                    callback.invoke(PromiseResult<R>(error: error.localizedDescription))
+                    callback.invoke(PromiseResult<R>(error: error.encodableError))
                 }
             }
         }
@@ -62,7 +81,7 @@ public extension Injector {
                         self.processCallback(args.arg1)
                     )))
                 } catch {
-                    callback.invoke(PromiseResult<R>(error: error.localizedDescription))
+                    callback.invoke(PromiseResult<R>(error: error.encodableError))
                 }
             }
         }
@@ -83,7 +102,7 @@ public extension Injector {
                         self.processCallback(args.arg2)
                     )))
                 } catch {
-                    callback.invoke(PromiseResult<R>(error: error.localizedDescription))
+                    callback.invoke(PromiseResult<R>(error: error.encodableError))
                 }
             }
         }
@@ -96,5 +115,15 @@ public extension Injector {
                key: path,
                injectionTime: injectionTime,
                forMainFrameOnly: false)
+    }
+}
+
+private extension Error {
+    var encodableError: any EncodableError {
+        if let encodableError = self as? EncodableError {
+            return encodableError
+        } else {
+            return StandardEncodableError(error: localizedDescription)
+        }
     }
 }

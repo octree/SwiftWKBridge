@@ -34,6 +34,11 @@ struct User: Codable {
     var nickname: String?
 }
 
+struct CodableError: Encodable, Error {
+    let code: Int
+    let message: String
+}
+
 class ViewController: UIViewController {
     @IBOutlet var webView: WKWebView!
 
@@ -75,7 +80,7 @@ class ViewController: UIViewController {
 
         let async0: () async throws -> String = { [weak webView] in
             let new: () async throws -> String = {
-                return "world"
+                "world"
             }
             webView?.injector.inject(path: "async3", plugin: new)
             return "hello"
@@ -90,13 +95,18 @@ class ViewController: UIViewController {
         }
 
         let asyncThrow: () async throws -> String = {
-            throw NSError(domain: "fuck", code: 123, userInfo: [:])
+            throw NSError(domain: "1234", code: -13, userInfo: [NSLocalizedDescriptionKey: "reason"])
+        }
+
+        let encodableThrow: () async throws -> String = {
+            throw CodableError(code: 123, message: "error")
         }
 
         webView.injector.inject(path: "async0", plugin: async0)
         webView.injector.inject(path: "async1", plugin: async1)
         webView.injector.inject(path: "async2", plugin: async2)
         webView.injector.inject(path: "asyncThrow", plugin: asyncThrow)
+        webView.injector.inject(path: "encodableThrow", plugin: encodableThrow)
     }
 
     func confirm(msg: String, callback: Callback) {
