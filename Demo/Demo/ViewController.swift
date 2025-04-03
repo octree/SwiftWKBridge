@@ -102,6 +102,19 @@ class ViewController: UIViewController {
             throw CodableError(code: 123, message: "error")
         }
 
+        let promiseJson = "{\"name\": \"Octree\", \"age\": 18}"
+        let jsonPlugin: () async throws -> String = { promiseJson }
+        webView.injector.inject(path: "scriptPlugin", script: jsonPlugin)
+
+        let jsonPlugin1: (Int) async throws -> String = { "{\"name\": \"Octree\", \"age\": \($0)}" }
+        webView.injector.inject(path: "scriptPlugin1", script: jsonPlugin1)
+
+        let jsonPlugin2: (Int, String) async throws -> String = { "{\"name\": \"\($1)\", \"age\": \($0)}" }
+        webView.injector.inject(path: "scriptPlugin2", script: jsonPlugin2)
+
+        let jsonPlugin3: (Int, String, String) async throws -> String = { "{\"name\": \"\($1)\", \"age\": \($0), \"nickname\": \"\($2)\"}" }
+        webView.injector.inject(path: "scriptPlugin3", script: jsonPlugin3)
+
         webView.injector.inject(path: "async0", plugin: async0)
         webView.injector.inject(path: "async1", plugin: async1)
         webView.injector.inject(path: "async2", plugin: async2)
