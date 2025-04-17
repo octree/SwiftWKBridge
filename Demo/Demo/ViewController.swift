@@ -120,6 +120,23 @@ class ViewController: UIViewController {
         webView.injector.inject(path: "async2", plugin: async2)
         webView.injector.inject(path: "asyncThrow", plugin: asyncThrow)
         webView.injector.inject(path: "encodableThrow", plugin: encodableThrow)
+
+        let asyncVoid: () async throws -> Void = {
+            print("hello void")
+        }
+
+        let asyncVoid1: (String) async throws -> Void = {
+            print("hello void\($0)")
+        }
+
+        let asyncVoid2: (String, String) async throws -> Void = {
+            print("hello void \($0) \($1)")
+            throw NSError(domain: "123", code: 1_234_123)
+        }
+
+        webView.injector.inject(path: "asyncVoid0", plugin: asyncVoid)
+        webView.injector.inject(path: "asyncVoid1", plugin: asyncVoid1)
+        webView.injector.inject(path: "asyncVoid2", plugin: asyncVoid2)
     }
 
     func confirm(msg: String, callback: Callback) {
