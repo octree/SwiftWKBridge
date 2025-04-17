@@ -4,7 +4,16 @@ import WebKit
 typealias EncodableError = Encodable & Error
 
 struct StandardEncodableError: EncodableError {
-    var error: String?
+    var domain: String
+    var code: Int
+    var localizedDescription: String
+
+    init(error: Error) {
+        let nsError = error as NSError
+        domain = nsError.domain
+        code = nsError.code
+        localizedDescription = nsError.localizedDescription
+    }
 }
 
 struct PromiseResult<V: Encodable>: Encodable {
@@ -198,7 +207,7 @@ private extension Error {
         if let encodableError = self as? EncodableError {
             return encodableError
         } else {
-            return StandardEncodableError(error: localizedDescription)
+            return StandardEncodableError(error: self)
         }
     }
 }
