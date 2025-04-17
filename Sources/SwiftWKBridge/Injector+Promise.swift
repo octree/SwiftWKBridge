@@ -42,7 +42,30 @@ struct PromiseResult<V: Encodable>: Encodable {
     }
 }
 
+struct VoidPromiseResult: Encodable {
+    enum CodingKeys: String, CodingKey {
+        case error
+    }
+
+    public var error: (any EncodableError)?
+
+    public init() {}
+
+    public init(error: any EncodableError) {
+        self.error = error
+    }
+
+    func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if let error {
+            try container.encodeIfPresent(error, forKey: .error)
+        }
+    }
+}
+
 public extension Injector {
+    // MARK: - Encodable Promise
+
     /// 添加插件
     /// - Parameter path: 函数名称, eg: window.bridge.alert
     /// - Parameter plugin: 插件函数，webView 中调用 `path` 中指定的函数，就会调用这个函数
@@ -117,6 +140,87 @@ public extension Injector {
         }
         _injectPromise(path: path, plugin: f, argsCount: 3)
     }
+
+    // MARK: - Void Promise
+
+    // 专门为Void返回类型提供的版本
+    func inject(path: String, plugin: @escaping () async throws -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentStart) {
+        let f: (Args1<Callback>) -> Void = { args in
+            Task {
+                let callback = self.processCallback(args.arg0)
+                do {
+                    try await plugin()
+                    callback.invoke(VoidPromiseResult())
+                } catch {
+                    callback.invoke(VoidPromiseResult(error: error.encodableError))
+                }
+            }
+        }
+        _injectPromise(path: path, plugin: f, argsCount: 0)
+    }
+
+    // 为带一个参数且返回Void的函数提供的版本
+    func inject<P0: Decodable>(path: String, plugin: @escaping (P0) async throws -> Void, injectionTime: WKUserScriptInjectionTime = .atDocumentStart) {
+        let f: (Args2<P0, Callback>) -> Void = { args in
+            Task {
+                let callback = self.processCallback(args.arg1)
+                do {
+                    try await plugin(self.processCallback(args.arg0))
+                    callback.invoke(VoidPromiseResult())
+                } catch {
+                    callback.invoke(VoidPromiseResult(error: error.encodableError))
+                }
+            }
+        }
+        _injectPromise(path: path, plugin: f, argsCount: 1)
+    }
+
+    // 为带两个参数且返回Void的函数提供的版本
+    func inject<P0, P1>(path: String,
+                        plugin: @escaping (P0, P1) async throws -> Void,
+                        injectionTime: WKUserScriptInjectionTime = .atDocumentStart)
+        where P0: Decodable, P1: Decodable {
+        let f: (Args3<P0, P1, Callback>) -> Void = { args in
+            Task {
+                let callback = self.processCallback(args.arg2)
+                do {
+                    try await plugin(
+                        self.processCallback(args.arg0),
+                        self.processCallback(args.arg1)
+                    )
+                    callback.invoke(VoidPromiseResult())
+                } catch {
+                    callback.invoke(VoidPromiseResult(error: error.encodableError))
+                }
+            }
+        }
+        _injectPromise(path: path, plugin: f, argsCount: 2)
+    }
+
+    // 为带三个参数且返回Void的函数提供的版本
+    func inject<P0, P1, P2>(path: String,
+                            plugin: @escaping (P0, P1, P2) async throws -> Void,
+                            injectionTime: WKUserScriptInjectionTime = .atDocumentStart)
+        where P0: Decodable, P1: Decodable, P2: Decodable {
+        let f: (Args4<P0, P1, P2, Callback>) -> Void = { args in
+            Task {
+                let callback = self.processCallback(args.arg3)
+                do {
+                    try await plugin(
+                        self.processCallback(args.arg0),
+                        self.processCallback(args.arg1),
+                        self.processCallback(args.arg2)
+                    )
+                    callback.invoke(VoidPromiseResult())
+                } catch {
+                    callback.invoke(VoidPromiseResult(error: error.encodableError))
+                }
+            }
+        }
+        _injectPromise(path: path, plugin: f, argsCount: 3)
+    }
+
+    // MARK: - Script Promise
 
     /// 添加插件
     /// - Parameter path: 函数名称, eg: window.bridge.alert
