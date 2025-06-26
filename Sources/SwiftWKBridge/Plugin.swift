@@ -46,11 +46,13 @@ class Plugin<Arg: ArgsType>: AnyPlugin {
             fatalError()
         }
         do {
-            let args = try JSONDecoder().decode(Arg.self, from: data)
+            let decoder = JSONDecoder()
+            decoder.userInfo[.webView] = webView
+            let args = try decoder.decode(Arg.self, from: data)
             f(args)
         } catch {
-            let message = "🍎 [Plugin] Cannot invoke plugin(\(path)) with args: \(argString), error: \(error)"
             #if DEBUG
+            let message = "🍎 [Plugin] Cannot invoke plugin(\(path)) with args: \(argString), error: \(error)"
             print(message)
             guard let webView else { return }
             DispatchQueue.main.async {
@@ -62,4 +64,8 @@ class Plugin<Arg: ArgsType>: AnyPlugin {
             #endif
         }
     }
+}
+
+extension CodingUserInfoKey {
+    static let webView = CodingUserInfoKey(rawValue: "__webView__.weak")!
 }
