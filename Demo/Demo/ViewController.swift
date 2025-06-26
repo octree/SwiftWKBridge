@@ -137,6 +137,30 @@ class ViewController: UIViewController {
         webView.injector.inject(path: "asyncVoid0", plugin: asyncVoid)
         webView.injector.inject(path: "asyncVoid1", plugin: asyncVoid1)
         webView.injector.inject(path: "asyncVoid2", plugin: asyncVoid2)
+
+        let testReturnFunction: () -> String = {
+            "function () { return println('123') }"
+        }
+        webView.injector.inject(path: "testReturnFunction", script: testReturnFunction)
+
+        let testUUID: () -> String = {
+            let uuid = UUID()
+            return """
+            (() => {
+                function fn() {
+                    println('\(uuid)')
+                }
+                fn.toString = () => '\(uuid)'
+                return fn
+            })()
+            """
+        }
+        webView.injector.inject(path: "testUUID", script: testUUID)
+        
+        let testCancal: (UUID) -> Void = {
+            print("cancel", $0)
+        }
+        webView.injector.inject(path: "testCancal", plugin: testCancal)
     }
 
     func confirm(msg: String, callback: Callback) {
