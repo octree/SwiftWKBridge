@@ -41,6 +41,12 @@ public final class Callback: Decodable, @unchecked Sendable {
     let id: String
     weak var webView: WKWebView?
 
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
+        webView = decoder.userInfo[.webView] as? WKWebView
+    }
+
     public func invoke(_ args: Encodable...) {
         _invoke(args: args)
     }

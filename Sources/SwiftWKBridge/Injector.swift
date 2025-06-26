@@ -324,20 +324,6 @@ extension Injector {
 
 extension Injector {
     func processCallback<P: Decodable>(_ arg: P) -> P {
-        if let array = arg as? [Callback] {
-            array.forEach { [weak self] in $0.webView = self?.webView }
-            return arg
-        }
-
-        if let dict = arg as? [AnyHashable: Callback] {
-            dict.values.forEach { [weak self] in $0.webView = self?.webView }
-            return arg
-        }
-
-        guard let callback = arg as? Callback else {
-            return arg
-        }
-        callback.webView = webView
         return arg
     }
 }
